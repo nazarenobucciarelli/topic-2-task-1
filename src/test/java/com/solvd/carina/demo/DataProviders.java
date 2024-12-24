@@ -1,6 +1,6 @@
 package com.solvd.carina.demo;
 
-import com.solvd.carina.demo.gui.enums.Category;
+import com.solvd.carina.demo.gui.common.enums.Category;
 import org.testng.annotations.DataProvider;
 
 public class DataProviders {

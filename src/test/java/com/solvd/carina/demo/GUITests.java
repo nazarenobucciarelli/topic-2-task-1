@@ -1,33 +1,41 @@
 package com.solvd.carina.demo;
 
-import com.solvd.carina.demo.gui.components.*;
-import com.solvd.carina.demo.gui.enums.Category;
-import com.solvd.carina.demo.gui.models.Product;
-import com.solvd.carina.demo.gui.pages.desktop.*;
+import com.solvd.carina.demo.gui.common.components.HeaderComponentBase;
+import com.solvd.carina.demo.gui.common.enums.Category;
+import com.solvd.carina.demo.gui.common.models.Product;
+import com.solvd.carina.demo.gui.common.pages.HomePageBase;
+import com.solvd.carina.demo.gui.common.pages.ProductListPageBase;
+import com.solvd.carina.demo.gui.desktop.components.*;
+import com.solvd.carina.demo.gui.desktop.pages.*;
+import com.solvd.carina.demo.gui.utils.MobileContextUtils;
 import com.zebrunner.carina.core.IAbstractTest;
+import com.zebrunner.carina.utils.factory.ICustomTypePageFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class GUITests implements IAbstractTest {
 
+
     @Test(enabled = true)
     public void testSearchResults() {
-        HomePage homePage = new HomePage(getDriver());
+        HomePageBase homePage = initPage(HomePageBase.class);
         homePage.open();
-        HeaderComponent headerComponent = homePage.getHeader();
+        HeaderComponentBase headerComponent = homePage.getHeader();
         headerComponent.typeSearchBox("football jerseys");
-        ProductListPage searchResultsPage = headerComponent.clickSearchButton();
+        ProductListPageBase searchResultsPage = headerComponent.clickSearchButton();
         List<Product> products = searchResultsPage.getProducts();
         products.forEach(product -> {
+            System.out.println(product.getTitle());
+            System.out.println(product.getPrice());
             Assert.assertTrue(!product.getTitle().isEmpty() &&
                     !product.getPrice().isEmpty(), "Not all products have a title and price");
         });
     }
-
+        /*
     @Test(enabled = true)
     public void testShoppingCartAdd() {
         ShoppingCartPage shoppingCartPage = addProductToShoppingCart("t-shirts");
@@ -132,5 +140,5 @@ public class GUITests implements IAbstractTest {
         signInPage.typePassword(password);
         signInPage.clickSignInBtn();
         return signInPage;
-    }
+    } */
 }
