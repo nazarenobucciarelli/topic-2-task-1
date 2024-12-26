@@ -6,6 +6,7 @@ import com.solvd.carina.demo.gui.common.pages.ProductListPageBase;
 import com.solvd.carina.demo.gui.android.pages.CategoryPage;
 import com.solvd.carina.demo.gui.android.pages.ProductListPage;
 import com.solvd.carina.demo.gui.android.pages.SignInPage;
+import com.solvd.carina.demo.gui.common.pages.SignInPageBase;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.SearchContext;
@@ -20,8 +21,15 @@ public class HeaderComponent extends HeaderComponentBase implements IMobileUtils
     @FindBy(xpath = "//android.widget.Button[@text=\"Search\"]")
     private ExtendedWebElement searchButton;
 
+    @FindBy(xpath = "//android.widget.TextView[@text=\"Sign in\"]")
+    private ExtendedWebElement signInButton;
+
+    @FindBy(xpath = "//android.widget.Button[@text=\"Open menu\"]")
+    private ExtendedWebElement openMenuButton;
+
     public HeaderComponent(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
+        setUiLoadedMarker(searchBox);
     }
 
     @Override
@@ -46,8 +54,11 @@ public class HeaderComponent extends HeaderComponentBase implements IMobileUtils
     }
 
     @Override
-    public SignInPage clickSignInButton() {
-        return null;
+    public SignInPageBase clickSignInButton() {
+        openMenuButton.click();
+        waitUntil(webDriver -> signInButton.isVisible(),5);
+        signInButton.click();
+        return initPage(SignInPageBase.class);
     }
 
     @Override

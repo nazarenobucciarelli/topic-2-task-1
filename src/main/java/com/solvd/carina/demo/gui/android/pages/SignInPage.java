@@ -9,19 +9,23 @@ import org.openqa.selenium.support.FindBy;
 @DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = SignInPageBase.class)
 public class SignInPage extends SignInPageBase {
 
-    @FindBy(id = "userid")
+    @FindBy(xpath = "//android.webkit.WebView[@text=\"Sign in or Register | eBay\"]/android.view.View/" +
+            "android.view.View[3]/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View[2]" +
+            "/android.widget.EditText")
     private ExtendedWebElement userId;
 
-    @FindBy(id = "pass")
+    @FindBy(xpath = "//android.webkit.WebView[@text=\"Sign in or Register | eBay\"]/android.view.View/" +
+            "android.view.View[3]/android.view.View/android.view.View[2]/android.view.View[1]/" +
+            "android.view.View[1]/android.view.View[2]/android.widget.EditText")
     private ExtendedWebElement passwordInput;
 
-    @FindBy(css = "button[data-testid='signin-continue-btn']")
+    @FindBy(xpath = "//android.widget.Button[@text=\"Continue\"]")
     private ExtendedWebElement signInContinueBtn;
 
-    @FindBy(id = "sgnBt")
+    @FindBy(xpath = "//android.widget.Button[@text=\"Sign in\"]")
     private ExtendedWebElement signInBtn;
 
-    @FindBy(id = "signin-error-msg")
+    @FindBy(xpath = "//android.view.View[@text=\"This password is incorrect. Try again or reset password .\"]")
     private ExtendedWebElement signInErrorMsg;
 
     public SignInPage(WebDriver driver) {
@@ -46,6 +50,7 @@ public class SignInPage extends SignInPageBase {
 
     public void clickSignInBtn() {
         signInBtn.click();
+        pause(15); //to solve captcha
     }
 
     public boolean isSignInErrorMsgDisplayed() {

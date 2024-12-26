@@ -1,17 +1,18 @@
 package com.solvd.carina.demo.gui.android.components;
 
 import com.solvd.carina.demo.gui.common.components.CartProductComponentBase;
+import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class CartProductComponent extends CartProductComponentBase {
+public class CartProductComponent extends CartProductComponentBase implements IMobileUtils {
 
-    @FindBy(css = "button[data-test-id='cart-remove-item']")
+    @FindBy(xpath = "//android.widget.Button[contains(@text,\"Remove\")][1]")
     private ExtendedWebElement removeButton;
 
-    @FindBy(css = ".item-title a")
+    @FindBy(xpath = "//android.view.View[@content-desc]")
     private ExtendedWebElement title;
 
     public CartProductComponent(WebDriver driver, SearchContext searchContext) {
@@ -19,7 +20,7 @@ public class CartProductComponent extends CartProductComponentBase {
     }
 
     public void clickRemoveButton() {
-        removeButton.click();
+        tap(removeButton.getLocation().x, removeButton.getLocation().y,2);
         waitUntil(webDriver -> !removeButton.isElementPresent(),5);
     }
 

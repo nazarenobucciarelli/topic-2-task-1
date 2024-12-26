@@ -13,5 +13,5 @@ public abstract class ShoppingCartPageBase extends PageBase {
         super(driver);
     }
 
-    public abstract List<CartProductComponentBase> getCartProducts();
+    public abstract List<? extends CartProductComponentBase> getCartProducts();
 }

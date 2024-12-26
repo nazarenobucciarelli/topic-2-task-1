@@ -4,33 +4,34 @@ import com.solvd.carina.demo.gui.common.pages.ProductPageBase;
 import com.solvd.carina.demo.gui.android.components.DialogComponent;
 import com.solvd.carina.demo.gui.android.components.HeaderComponent;
 import com.solvd.carina.demo.gui.android.components.SelectOptionModalComponent;
-import com.solvd.carina.demo.gui.android.components.ShoppingCartOverlayComponent;
+
+import com.solvd.carina.demo.gui.common.pages.ShoppingCartPageBase;
 import com.zebrunner.carina.utils.factory.DeviceType;
+import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
 @DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = ProductPageBase.class)
-public class ProductPage extends ProductPageBase {
-    @FindBy(css = "div.x-atc-action")
+public class ProductPage extends ProductPageBase implements IMobileUtils {
+    @FindBy(xpath = "//android.widget.TextView[@text=\"Add to basket\"]")
     private ExtendedWebElement addToCartButton;
 
-    @FindBy(xpath = "//div[@data-testid='x-msku-evo']/div[not(@hidden)]")
+    @FindBy(xpath = "//android.widget.Button[contains(@text, \"Select\")]\n")
     private List<ExtendedWebElement> selectOptionButtons;
 
     @FindBy(css = "h1.x-item-title__mainTitle span")
     private ExtendedWebElement productName;
 
-    @FindBy(css = "span.listbox-button--expanded")
+    @FindBy(xpath = "//android.webkit.WebView/android.view.View/android.view.View/android.view.View/" +
+            "android.view.View/android.view.View//android.widget.ListView[.//android.view.View[@text='Select']]")
     private SelectOptionModalComponent selectOptionModalComponent;
 
-    @FindBy(css = "div.confirm-dialog__window")
+    @FindBy(xpath = "//android.app.Dialog[@text=\"Continue without personalising?\"]/android.view.View")
     private DialogComponent confirmationDialogComponent;
-
-    @FindBy(css = "div[data-testid='ux-overlay'][aria-hidden='false']")
-    private ShoppingCartOverlayComponent shoppingCartOverlayComponent;
 
     public ProductPage(WebDriver driver) {
         super(driver);
@@ -41,27 +42,29 @@ public class ProductPage extends ProductPageBase {
         return null;
     }
 
-
     public void selectRandomOptions() {
-        waitUntil(webDriver -> selectOptionButtons.get(0).isVisible(), 5);
         for (ExtendedWebElement button : selectOptionButtons) {
             SelectOptionModalComponent selectModal = clickOptionButton(button);
-            selectModal.selectRandomOption();
+            selectModal.selectLastOption();
         }
     }
 
     public SelectOptionModalComponent clickOptionButton(ExtendedWebElement button) {
+        pause(3);
         button.click();
         return selectOptionModalComponent;
     }
 
-    public ShoppingCartOverlayComponent clickAddToCartButton() {
+    public ShoppingCartPageBase clickAddToCartButton() {
         addToCartButton.click();
-        waitUntil(webDriver -> shoppingCartOverlayComponent.isUIObjectPresent(), 2);
-        return shoppingCartOverlayComponent;
+        if (isConfirmationDialogDisplayed()){
+            return confirmationDialogComponent.clickConfirmButton();
+        }
+        return clickOnSeeInBasketButton();
     }
 
     public boolean isAddToCartButtonPresent() {
+        swipe(addToCartButton);
         return addToCartButton.isPresent();
     }
 
@@ -74,7 +77,14 @@ public class ProductPage extends ProductPageBase {
     }
 
     public boolean isConfirmationDialogDisplayed() {
-        waitUntil(webDriver -> confirmationDialogComponent.isUIObjectPresent(), 2);
+        System.out.println(confirmationDialogComponent.isUIObjectPresent());
         return confirmationDialogComponent.isUIObjectPresent();
+    }
+
+    public ShoppingCartPageBase clickOnSeeInBasketButton(){
+        ExtendedWebElement seeInBasketBtn =
+                findExtendedWebElement(By.xpath("//android.widget.TextView[@text=\"See in basket\"]"));
+        seeInBasketBtn.click();
+        return initPage(ShoppingCartPageBase.class);
     }
 }

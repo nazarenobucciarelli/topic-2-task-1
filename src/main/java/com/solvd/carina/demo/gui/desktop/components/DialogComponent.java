@@ -1,6 +1,7 @@
 package com.solvd.carina.demo.gui.desktop.components;
 
 import com.solvd.carina.demo.gui.common.components.DialogComponentBase;
+import com.solvd.carina.demo.gui.common.pages.ShoppingCartPageBase;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
@@ -16,7 +17,8 @@ public class DialogComponent extends DialogComponentBase {
         super(driver, searchContext);
     }
 
-    public void clickConfirmButton() {
+    public ShoppingCartPageBase clickConfirmButton() {
         confirmButton.click();
+        return null;
     }
 }

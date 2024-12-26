@@ -1,10 +1,11 @@
 package com.solvd.carina.demo.gui.desktop.pages;
 
+import com.solvd.carina.demo.gui.desktop.pages.ShoppingCartPage;
 import com.solvd.carina.demo.gui.common.pages.ProductPageBase;
 import com.solvd.carina.demo.gui.desktop.components.DialogComponent;
 import com.solvd.carina.demo.gui.desktop.components.HeaderComponent;
 import com.solvd.carina.demo.gui.desktop.components.SelectOptionModalComponent;
-import com.solvd.carina.demo.gui.desktop.components.ShoppingCartOverlayComponent;
+
 import com.solvd.carina.demo.gui.common.pages.PageBase;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.WebDriver;
@@ -29,8 +30,8 @@ public class ProductPage extends ProductPageBase {
     @FindBy(css = "div.confirm-dialog__window")
     private DialogComponent confirmationDialogComponent;
 
-    @FindBy(css = "div[data-testid='ux-overlay'][aria-hidden='false']")
-    private ShoppingCartOverlayComponent shoppingCartOverlayComponent;
+    @FindBy(css = "a[data-testid='ux-call-to-action']")
+    private List<ExtendedWebElement> actionButtons;
 
     public ProductPage(WebDriver driver) {
         super(driver);
@@ -41,12 +42,11 @@ public class ProductPage extends ProductPageBase {
         return null;
     }
 
-
     public void selectRandomOptions() {
         waitUntil(webDriver -> selectOptionButtons.get(0).isVisible(), 5);
         for (ExtendedWebElement button : selectOptionButtons) {
             SelectOptionModalComponent selectModal = clickOptionButton(button);
-            selectModal.selectRandomOption();
+            selectModal.selectLastOption();
         }
     }
 
@@ -55,10 +55,10 @@ public class ProductPage extends ProductPageBase {
         return selectOptionModalComponent;
     }
 
-    public ShoppingCartOverlayComponent clickAddToCartButton() {
+    public ShoppingCartPage clickAddToCartButton() {
         addToCartButton.click();
-        waitUntil(webDriver -> shoppingCartOverlayComponent.isUIObjectPresent(), 2);
-        return shoppingCartOverlayComponent;
+        waitUntil(webDriver -> actionButtons.get(0).isClickable(), 2);
+        return clickOnSeeInBasketButton();
     }
 
     public boolean isAddToCartButtonPresent() {
@@ -76,5 +76,14 @@ public class ProductPage extends ProductPageBase {
     public boolean isConfirmationDialogDisplayed() {
         waitUntil(webDriver -> confirmationDialogComponent.isUIObjectPresent(), 2);
         return confirmationDialogComponent.isUIObjectPresent();
+    }
+
+    public ShoppingCartPage clickOnSeeInBasketButton() {
+        waitUntil(webDriver -> !actionButtons.isEmpty(), 2);
+        ExtendedWebElement seeInBasketButton = actionButtons.get(1);
+        seeInBasketButton.click();
+        ShoppingCartPage shoppingCartPage = new ShoppingCartPage(driver);
+        waitUntil(webDriver -> !shoppingCartPage.getCaptcha().isVisible(),20);
+        return shoppingCartPage;
     }
 }

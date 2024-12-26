@@ -19,12 +19,8 @@ public class SelectOptionModalComponent extends SelectOptionModalComponentBase {
         super(driver, searchContext);
     }
 
-    public void selectRandomOption() {
-        int randomIndex = new Random().nextInt(availableOptions.size());
-        if (randomIndex == 0) {
-            randomIndex = 1;
-        }
-        availableOptions.get(randomIndex).click();
+    public void selectLastOption() {
+        availableOptions.get(availableOptions.size() - 1).click();
     }
 
 }

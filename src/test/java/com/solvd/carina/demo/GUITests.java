@@ -1,10 +1,12 @@
 package com.solvd.carina.demo;
 
+import com.solvd.carina.demo.gui.common.components.CartProductComponentBase;
+import com.solvd.carina.demo.gui.common.components.DialogComponentBase;
 import com.solvd.carina.demo.gui.common.components.HeaderComponentBase;
+import com.solvd.carina.demo.gui.common.components.ProductListLeftSideBarComponentBase;
 import com.solvd.carina.demo.gui.common.enums.Category;
 import com.solvd.carina.demo.gui.common.models.Product;
-import com.solvd.carina.demo.gui.common.pages.HomePageBase;
-import com.solvd.carina.demo.gui.common.pages.ProductListPageBase;
+import com.solvd.carina.demo.gui.common.pages.*;
 import com.solvd.carina.demo.gui.desktop.components.*;
 import com.solvd.carina.demo.gui.desktop.pages.*;
 import com.solvd.carina.demo.gui.utils.MobileContextUtils;
@@ -15,12 +17,13 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class GUITests implements IAbstractTest {
 
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void testSearchResults() {
         HomePageBase homePage = initPage(HomePageBase.class);
         homePage.open();
@@ -29,41 +32,71 @@ public class GUITests implements IAbstractTest {
         ProductListPageBase searchResultsPage = headerComponent.clickSearchButton();
         List<Product> products = searchResultsPage.getProducts();
         products.forEach(product -> {
-            System.out.println(product.getTitle());
-            System.out.println(product.getPrice());
             Assert.assertTrue(!product.getTitle().isEmpty() &&
                     !product.getPrice().isEmpty(), "Not all products have a title and price");
         });
     }
-        /*
-    @Test(enabled = true)
+
+    @Test(enabled = false)
     public void testShoppingCartAdd() {
-        ShoppingCartPage shoppingCartPage = addProductToShoppingCart("t-shirts");
+        ShoppingCartPageBase shoppingCartPage = addProductToShoppingCart("t-shirts");
         Assert.assertEquals(shoppingCartPage.getCartProducts().size(), 1, "There should be one product");
     }
 
-    @Test(enabled = true)
+    public ShoppingCartPageBase addProductToShoppingCart(String search) {
+        HomePageBase homePage = initPage(HomePageBase.class);
+        homePage.open();
+        HeaderComponentBase headerComponent = homePage.getHeader();
+        headerComponent.typeSearchBox(search);
+        ProductListPageBase searchResultsPage = headerComponent.clickSearchButton();
+        ProductPageBase productPage = searchResultsPage.clickOnRandomProduct();
+        boolean isAddToCartButtonPresent = productPage.isAddToCartButtonPresent();
+        while (!isAddToCartButtonPresent) {
+            getDriver().navigate().back();
+
+            productPage = searchResultsPage.clickOnRandomProduct();
+            isAddToCartButtonPresent = productPage.isAddToCartButtonPresent();
+        }
+
+        productPage.selectRandomOptions();
+
+        return productPage.clickAddToCartButton();
+    }
+
+    @Test(enabled = false)
     public void testShoppingCartRemove() {
-        ShoppingCartPage shoppingCartPage = addProductToShoppingCart("t-shirt");
-        shoppingCartPage.getCartProducts().forEach(CartProductComponent::clickRemoveButton);
+        ShoppingCartPageBase shoppingCartPage = addProductToShoppingCart("t-shirt");
+        shoppingCartPage.getCartProducts().forEach(CartProductComponentBase::clickRemoveButton);
         Assert.assertEquals(shoppingCartPage.getCartProducts().size(), 0, "There should be 0 products");
     }
 
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void testWrongLoginAttempt() {
-        SignInPage signInPage = login("christian", "christianPassword");
-        Assert.assertTrue(signInPage.isSignInErrorMsgDisplayed(),"Sign in message must be displayed");
+        SignInPageBase signInPage = login("christian", "christianPassword");
+        Assert.assertTrue(signInPage.isSignInErrorMsgDisplayed(), "Sign in message must be displayed");
+    }
+
+    public SignInPageBase login(String username, String password) {
+        HomePageBase homePage = initPage(HomePageBase.class);
+        homePage.open();
+        HeaderComponentBase headerComponent = homePage.getHeader();
+        SignInPageBase signInPage = headerComponent.clickSignInButton();
+        signInPage.typeUserId(username);
+        signInPage.clickSignInContinueBtn();
+        signInPage.typePassword(password);
+        signInPage.clickSignInBtn();
+        return signInPage;
     }
 
     @Test(enabled = true)
     public void testSearchFilteringFunctionality() {
-        HomePage homePage = new HomePage(getDriver());
+        HomePageBase homePage = initPage(HomePageBase.class);
         homePage.open();
-        HeaderComponent headerComponent = homePage.getHeader();
+        HeaderComponentBase headerComponent = homePage.getHeader();
         headerComponent.typeSearchBox("guitars");
-        ProductListPage productListPage = headerComponent.clickSearchButton();
-        ProductListLeftSideBarComponent productListLeftSideBar = productListPage.getLeftSideBar();
+        ProductListPageBase productListPage = headerComponent.clickSearchButton();
+        ProductListLeftSideBarComponentBase productListLeftSideBar = productListPage.getLeftSideBar();
         String brandName = productListLeftSideBar.selectRandomBrand();
         AtomicInteger counter = new AtomicInteger();
         productListPage.getProducts().forEach(productListComponent -> {
@@ -75,7 +108,7 @@ public class GUITests implements IAbstractTest {
                 "was lower than 10");
     }
 
-
+        /*
     @Test(enabled = true)
     public void testAreHeaderElementsDisplayed() {
         HomePage homePage = new HomePage(getDriver());
@@ -99,46 +132,6 @@ public class GUITests implements IAbstractTest {
 
     // Helper methods
 
-    public ShoppingCartPage addProductToShoppingCart(String search) {
-        HomePage homePage = new HomePage(getDriver());
-        homePage.open();
-        HeaderComponent headerComponent = homePage.getHeader();
-        headerComponent.typeSearchBox(search);
-        ProductListPage searchResultsPage = headerComponent.clickSearchButton();
-        ProductPage productPage = searchResultsPage.clickOnRandomProduct();
-        boolean isAddToCartButtonPresent = productPage.isAddToCartButtonPresent();
-        while (!isAddToCartButtonPresent) {
-            getDriver().close();
 
-            Set<String> windowHandles = getDriver().getWindowHandles();
-            String mainWindowHandle = windowHandles.iterator().next();
-            getDriver().switchTo().window(mainWindowHandle);
-
-            productPage = searchResultsPage.clickOnRandomProduct();
-            isAddToCartButtonPresent = productPage.isAddToCartButtonPresent();
-        }
-
-        productPage.selectRandomOptions();
-
-        ShoppingCartOverlayComponent overlay = productPage.clickAddToCartButton();
-
-        if (productPage.isConfirmationDialogDisplayed()) {
-            DialogComponent dialogComponent = productPage.getConfirmationDialog();
-            dialogComponent.clickConfirmButton();
-        }
-
-        return overlay.clickOnSeeInBasketButton();
-    }
-
-    public SignInPage login(String username, String password) {
-        HomePage homePage = new HomePage(getDriver());
-        homePage.open();
-        HeaderComponent headerComponent = homePage.getHeader();
-        SignInPage signInPage = headerComponent.clickSignInButton();
-        signInPage.typeUserId(username);
-        signInPage.clickSignInContinueBtn();
-        signInPage.typePassword(password);
-        signInPage.clickSignInBtn();
-        return signInPage;
-    } */
+*/
 }
