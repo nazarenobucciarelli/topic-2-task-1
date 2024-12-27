@@ -1,5 +1,6 @@
 package com.solvd.carina.demo.gui.common.pages;
 
+import com.solvd.carina.demo.gui.common.enums.Category;
 import com.zebrunner.carina.utils.mobile.IMobileUtils;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractPage;
@@ -15,5 +16,5 @@ public abstract class HomePageBase extends PageBase implements IMobileUtils {
         super(driver);
     }
 
-    public abstract List<ExtendedWebElement> getCategories();
+    public abstract CategoryPageBase selectCategory(Category category);
 }

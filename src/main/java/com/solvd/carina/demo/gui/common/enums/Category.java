@@ -3,7 +3,7 @@ package com.solvd.carina.demo.gui.common.enums;
 public enum Category {
     VEHICLE_PARTS("Vehicle Parts & Accessories","Motors"),
     SOUND_VISION("Sound & Vision","Electronics"),
-    MUSIC("Music","Media");
+    MUSIC("Health Care","Health & Beauty");
 
     private final String displayName;
     private final String parentCategory;

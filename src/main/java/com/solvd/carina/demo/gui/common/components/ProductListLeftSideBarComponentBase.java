@@ -9,5 +9,5 @@ public abstract class ProductListLeftSideBarComponentBase extends AbstractUIObje
         super(driver, searchContext);
     }
 
-    public abstract String selectRandomBrand();
+    public abstract String selectRandomLimitPrice();
 }

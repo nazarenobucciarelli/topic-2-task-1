@@ -3,7 +3,6 @@ package com.solvd.carina.demo.gui.desktop.components;
 import com.solvd.carina.demo.gui.common.components.ShopByCategoryModalComponentBase;
 import com.solvd.carina.demo.gui.desktop.pages.CategoryPage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 

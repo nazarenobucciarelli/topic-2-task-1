@@ -20,7 +20,7 @@ public class ProductListLeftSideBarComponent extends ProductListLeftSideBarCompo
         super(driver, searchContext);
     }
 
-    public String selectRandomBrand() {
+    public String selectRandomLimitPrice() {
         List<ExtendedWebElement> checkBoxes = filterGroups.get(0).findExtendedWebElements(By.cssSelector("a"));
         int randomIndex = new Random().nextInt(checkBoxes.size());
         ExtendedWebElement checkBox = checkBoxes.get(randomIndex);

@@ -2,23 +2,20 @@ package com.solvd.carina.demo.gui.desktop.pages;
 
 import com.solvd.carina.demo.gui.common.models.CategoryItem;
 import com.solvd.carina.demo.gui.common.pages.CategoryPageBase;
+import com.solvd.carina.demo.gui.desktop.components.CategoryItemComponent;
 import com.solvd.carina.demo.gui.desktop.components.HeaderComponent;
-import com.solvd.carina.demo.gui.desktop.components.ProductCategoryComponent;
-import com.solvd.carina.demo.gui.common.models.Product;
-import com.solvd.carina.demo.gui.common.pages.PageBase;
-import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
+import com.zebrunner.carina.utils.factory.DeviceType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = CategoryPageBase.class)
 public class CategoryPage extends CategoryPageBase {
-    @FindBy(css = "nav[role='navigation']")
-    private ExtendedWebElement nav;
 
-    @FindBy(css = "li.brwrvr__item-card--list")
-    private List<ProductCategoryComponent> items;
+    @FindBy(xpath = "//section[contains(@class, \"seo-gallery-view\") and  .//h2[text()=\"Shop by category\"]]//li")
+    private List<CategoryItemComponent> shopByCategoryItems;
 
     public CategoryPage(WebDriver driver) {
         super(driver);
@@ -30,7 +27,10 @@ public class CategoryPage extends CategoryPageBase {
     }
 
     public List<CategoryItem> getProducts() {
-        waitUntil(webDriver -> !items.isEmpty(),5);
-        return null;
+        waitUntil(webDriver -> !shopByCategoryItems.isEmpty(), 3);
+        shopByCategoryItems.get(0).getRootExtendedElement().scrollTo();
+        return shopByCategoryItems.stream()
+                .map(categoryItemComponent -> new CategoryItem(categoryItemComponent.getName()))
+                .collect(Collectors.toList());
     }
 }

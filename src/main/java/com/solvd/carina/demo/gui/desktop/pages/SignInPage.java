@@ -1,11 +1,12 @@
 package com.solvd.carina.demo.gui.desktop.pages;
 
-import com.solvd.carina.demo.gui.common.pages.CaptchaPageBase;
 import com.solvd.carina.demo.gui.common.pages.SignInPageBase;
+import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
+@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = SignInPageBase.class)
 public class SignInPage extends SignInPageBase {
 
     @FindBy(id = "userid")
@@ -33,10 +34,7 @@ public class SignInPage extends SignInPageBase {
 
     public void clickSignInContinueBtn() {
         signInContinueBtn.click();
-        if (getCaptcha().isVisible()) {
-            System.out.println("captcha is visible");
-            waitUntil(webDriver -> !getCaptcha().isVisible(), 20);
-        }
+        pause(15); // to solve captcha
     }
 
     public void typePassword(String password) {
@@ -45,6 +43,7 @@ public class SignInPage extends SignInPageBase {
 
     public void clickSignInBtn() {
         signInBtn.click();
+        pause(15); // to solve captcha
     }
 
     public boolean isSignInErrorMsgDisplayed() {

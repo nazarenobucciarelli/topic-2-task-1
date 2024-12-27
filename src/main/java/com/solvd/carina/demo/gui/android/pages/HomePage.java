@@ -1,5 +1,7 @@
 package com.solvd.carina.demo.gui.android.pages;
 
+import com.solvd.carina.demo.gui.common.enums.Category;
+import com.solvd.carina.demo.gui.common.pages.CategoryPageBase;
 import com.solvd.carina.demo.gui.common.pages.HomePageBase;
 import com.solvd.carina.demo.gui.android.components.HeaderComponent;
 import com.zebrunner.carina.utils.factory.DeviceType;
@@ -30,10 +32,8 @@ public class HomePage extends HomePageBase implements IMobileUtils {
         return header;
     }
 
-    public List<ExtendedWebElement> getCategories() {
-        return categories.stream()
-                .filter(category -> category.isVisible()
-                        && !category.getText().equals("Explore (New!)") && !category.getText().equals("Saved"))
-                .collect(Collectors.toList());
+    @Override
+    public CategoryPageBase selectCategory(Category category) {
+        return null;
     }
 }
