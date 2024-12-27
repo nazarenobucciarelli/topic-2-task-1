@@ -113,6 +113,7 @@ public class GUITests implements IAbstractTest {
         CategoryPageBase categoryPage;
         if (homePage.getDevice().isPhone()) {
             categoryPage = headerComponent.selectCategory(category);
+            System.out.println("ENTRA");
         } else {
             categoryPage = homePage.selectCategory(category);
         }

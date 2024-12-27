@@ -79,14 +79,17 @@ public class HeaderComponent extends HeaderComponentBase implements IMobileUtils
 
     @Override
     public CategoryPageBase selectCategory(Category category) {
+        System.out.println(category.getParentCategory() + " " + category.getDisplayName());
         openMenuButton.click();
         waitUntil(webDriver -> openMenuButton.isVisible(),5);
         categoriesButton.click();
-        categories.stream().filter(element -> element.getText().equals(category.getParentCategory()))
+        categories.stream().filter(element -> element.getText()
+                        .equalsIgnoreCase(category.getParentCategory()))
                 .findFirst().ifPresent(ExtendedWebElement::click);
         waitUntil(webDriver -> categories.isEmpty(),5);
         waitUntil(webDriver -> !subcategories.isEmpty(),5);
-        subcategories.stream().filter(element -> element.getText().equals(category.getDisplayName()))
+        subcategories.stream().filter(element -> element.getText()
+                        .equalsIgnoreCase(category.getDisplayName()))
                 .findFirst().ifPresent(ExtendedWebElement::click);
         waitUntil(webDriver -> subcategories.isEmpty(),5);
         return initPage(CategoryPageBase.class);

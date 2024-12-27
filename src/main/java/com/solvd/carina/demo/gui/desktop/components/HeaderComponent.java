@@ -81,11 +81,6 @@ public class HeaderComponent extends HeaderComponentBase {
         return null;
     }
 
-    public SelectComponentBase openCategoriesSelect() {
-        categoriesSelect.click();
-        return new SelectComponent(getDriver());
-    }
-
     public boolean areAllHeaderElementsDisplayed() {
         return signInButton.isVisible() && shopByCategoryButton.isVisible() && categoriesSelect.isVisible() &&
                 advancedButton.isVisible() && logo.isVisible() && registerButton.isVisible() &&

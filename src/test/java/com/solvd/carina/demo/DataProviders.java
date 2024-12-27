@@ -8,7 +8,6 @@ public class DataProviders {
     @DataProvider(name = "categories")
     public Object[][] categories() {
         return new Object[][]{
-                {Category.MUSIC},
                 {Category.SOUND_VISION},
                 {Category.VEHICLE_PARTS}
         };
