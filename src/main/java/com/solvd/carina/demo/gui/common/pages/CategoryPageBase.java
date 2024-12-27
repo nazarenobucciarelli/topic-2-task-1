@@ -1,5 +1,6 @@
 package com.solvd.carina.demo.gui.common.pages;
 
+import com.solvd.carina.demo.gui.common.models.CategoryItem;
 import com.solvd.carina.demo.gui.common.models.Product;
 import com.solvd.carina.demo.gui.desktop.components.ProductCategoryComponent;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
@@ -15,5 +16,5 @@ public abstract class CategoryPageBase extends PageBase {
         super(driver);
     }
 
-    public abstract List<Product> getProducts();
+    public abstract List<CategoryItem> getProducts();
 }

@@ -1,12 +1,10 @@
 package com.solvd.carina.demo.gui.desktop.pages;
 
-import com.solvd.carina.demo.gui.desktop.pages.ShoppingCartPage;
 import com.solvd.carina.demo.gui.common.pages.ProductPageBase;
 import com.solvd.carina.demo.gui.desktop.components.DialogComponent;
 import com.solvd.carina.demo.gui.desktop.components.HeaderComponent;
 import com.solvd.carina.demo.gui.desktop.components.SelectOptionModalComponent;
 
-import com.solvd.carina.demo.gui.common.pages.PageBase;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -46,7 +44,7 @@ public class ProductPage extends ProductPageBase {
         waitUntil(webDriver -> selectOptionButtons.get(0).isVisible(), 5);
         for (ExtendedWebElement button : selectOptionButtons) {
             SelectOptionModalComponent selectModal = clickOptionButton(button);
-            selectModal.selectLastOption();
+            selectModal.selectFirstOption();
         }
     }
 

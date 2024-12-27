@@ -45,18 +45,19 @@ public class ProductPage extends ProductPageBase implements IMobileUtils {
     public void selectRandomOptions() {
         for (ExtendedWebElement button : selectOptionButtons) {
             SelectOptionModalComponent selectModal = clickOptionButton(button);
-            selectModal.selectLastOption();
+            waitUntil(webDriver -> selectModal.isUIObjectPresent(),5);
+            selectModal.selectFirstOption();
         }
     }
 
     public SelectOptionModalComponent clickOptionButton(ExtendedWebElement button) {
-        pause(3);
         button.click();
         return selectOptionModalComponent;
     }
 
     public ShoppingCartPageBase clickAddToCartButton() {
         addToCartButton.click();
+        pause(15); // to solve captcha
         if (isConfirmationDialogDisplayed()){
             return confirmationDialogComponent.clickConfirmButton();
         }
@@ -77,7 +78,6 @@ public class ProductPage extends ProductPageBase implements IMobileUtils {
     }
 
     public boolean isConfirmationDialogDisplayed() {
-        System.out.println(confirmationDialogComponent.isUIObjectPresent());
         return confirmationDialogComponent.isUIObjectPresent();
     }
 

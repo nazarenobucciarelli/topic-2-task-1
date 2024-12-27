@@ -1,13 +1,13 @@
 package com.solvd.carina.demo.gui.desktop.components;
 
-import com.solvd.carina.demo.gui.android.pages.ProductListPage;
+import com.solvd.carina.demo.gui.common.enums.Category;
 import com.solvd.carina.demo.gui.common.components.HeaderComponentBase;
 import com.solvd.carina.demo.gui.common.components.SelectComponentBase;
+import com.solvd.carina.demo.gui.common.pages.CategoryPageBase;
 import com.solvd.carina.demo.gui.common.pages.ProductListPageBase;
 import com.solvd.carina.demo.gui.desktop.pages.CategoryPage;
 import com.solvd.carina.demo.gui.desktop.pages.SignInPage;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
-import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -74,6 +74,11 @@ public class HeaderComponent extends HeaderComponentBase {
             waitUntil(webDriver -> !signInPage.getCaptcha().isVisible(), 20);
         }
         return signInPage;
+    }
+
+    @Override
+    public CategoryPageBase selectCategory(Category category) {
+        return null;
     }
 
     public SelectComponentBase openCategoriesSelect() {

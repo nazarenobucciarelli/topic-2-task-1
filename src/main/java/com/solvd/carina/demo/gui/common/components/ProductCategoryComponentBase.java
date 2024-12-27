@@ -11,5 +11,4 @@ public abstract class ProductCategoryComponentBase extends AbstractUIObject {
 
     public abstract String getName();
 
-    public abstract String getPrice();
 }

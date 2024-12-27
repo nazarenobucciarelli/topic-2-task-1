@@ -10,6 +10,6 @@ public abstract class SelectOptionModalComponentBase extends AbstractUIObject {
         super(driver, searchContext);
     }
 
-    public abstract void selectLastOption();
+    public abstract void selectFirstOption();
 
 }

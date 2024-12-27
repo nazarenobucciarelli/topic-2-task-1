@@ -5,7 +5,6 @@ import com.solvd.carina.demo.gui.desktop.components.HeaderComponent;
 import com.solvd.carina.demo.gui.desktop.components.ProductListComponent;
 import com.solvd.carina.demo.gui.desktop.components.ProductListLeftSideBarComponent;
 import com.solvd.carina.demo.gui.common.models.Product;
-import com.solvd.carina.demo.gui.common.pages.PageBase;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
@@ -61,5 +60,11 @@ public class ProductListPage extends ProductListPageBase {
 
     public ProductListLeftSideBarComponent getLeftSideBar() {
         return leftSideBar;
+    }
+
+    @Override
+    public String selectPriceLimit() {
+
+        return null;
     }
 }

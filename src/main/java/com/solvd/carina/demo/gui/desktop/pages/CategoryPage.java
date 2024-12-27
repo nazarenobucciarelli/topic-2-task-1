@@ -1,5 +1,6 @@
 package com.solvd.carina.demo.gui.desktop.pages;
 
+import com.solvd.carina.demo.gui.common.models.CategoryItem;
 import com.solvd.carina.demo.gui.common.pages.CategoryPageBase;
 import com.solvd.carina.demo.gui.desktop.components.HeaderComponent;
 import com.solvd.carina.demo.gui.desktop.components.ProductCategoryComponent;
@@ -28,12 +29,8 @@ public class CategoryPage extends CategoryPageBase {
         return null;
     }
 
-    public List<Product> getProducts() {
+    public List<CategoryItem> getProducts() {
         waitUntil(webDriver -> !items.isEmpty(),5);
-        return items.stream()
-                .map(productCategoryComponent -> new Product(
-                        productCategoryComponent.getTitle(),
-                        productCategoryComponent.getPrice()))
-                .collect(Collectors.toList());
+        return null;
     }
 }

@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
 @DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = HomePageBase.class)
 public class HomePage extends HomePageBase implements IMobileUtils {
 
-    @FindBy(xpath = "//android.webkit.WebView[@text=\"Electronics, Cars, Fashion, Collectibles & More | eBay\"]/android.view.View/android.view.View[1]")
+    @FindBy(xpath = "//android.webkit.WebView[@text=\"Electronics, Cars, Fashion, Collectibles & More | eBay\"]" +
+            "/android.view.View/android.view.View[1]")
     private HeaderComponent header;
 
     @FindBy(css = ".vl-flyout-nav__container li a")

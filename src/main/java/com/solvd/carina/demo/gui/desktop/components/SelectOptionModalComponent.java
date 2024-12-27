@@ -19,7 +19,7 @@ public class SelectOptionModalComponent extends SelectOptionModalComponentBase {
         super(driver, searchContext);
     }
 
-    public void selectLastOption() {
+    public void selectFirstOption() {
         availableOptions.get(availableOptions.size() - 1).click();
     }
 

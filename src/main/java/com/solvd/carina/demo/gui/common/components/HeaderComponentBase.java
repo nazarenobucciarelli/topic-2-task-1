@@ -1,19 +1,14 @@
 package com.solvd.carina.demo.gui.common.components;
 
+import com.solvd.carina.demo.gui.common.enums.Category;
+
 import com.solvd.carina.demo.gui.common.pages.CategoryPageBase;
 import com.solvd.carina.demo.gui.common.pages.ProductListPageBase;
 import com.solvd.carina.demo.gui.common.pages.SignInPageBase;
-import com.solvd.carina.demo.gui.desktop.components.SelectComponent;
-import com.solvd.carina.demo.gui.desktop.components.ShopByCategoryModalComponent;
-import com.solvd.carina.demo.gui.desktop.pages.CategoryPage;
-import com.solvd.carina.demo.gui.desktop.pages.ProductListPage;
-import com.solvd.carina.demo.gui.desktop.pages.SignInPage;
 import com.zebrunner.carina.utils.factory.ICustomTypePageFactory;
-import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import com.zebrunner.carina.webdriver.gui.AbstractUIObject;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.FindBy;
 
 public abstract class HeaderComponentBase extends AbstractUIObject implements ICustomTypePageFactory {
 
@@ -31,7 +26,7 @@ public abstract class HeaderComponentBase extends AbstractUIObject implements IC
 
     public abstract SignInPageBase clickSignInButton();
 
-    public abstract SelectComponentBase openCategoriesSelect();
+    public abstract CategoryPageBase selectCategory(Category category);
 
     public abstract boolean areAllHeaderElementsDisplayed();
 
